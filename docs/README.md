@@ -1,5 +1,7 @@
 ## 💻 구현해야할 기능 목록
----
+
+### controller
+- [x] AccountController : 계좌와 관련된 API url 설정
 
 ### entity
 - [x] Account : 계좌를 표현하는 클래스 생성
