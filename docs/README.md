@@ -9,6 +9,10 @@
 - [x] BaseEntity : 여러개의 도메인에서 공통적인 멤버변수를 관리할 클래스 생성
   - 유연성을 부여하기 위해서
 
+
+### dto 
+- [x] CreateAccount : 계좌 생성에 대한 요청/응답 처리 클래스 생성
+
 ### repository
 - [x] AccountRepository: 계좌들을 관리하는 래파지토리 생성 
 
