@@ -1,6 +1,7 @@
 package yuki.account.domain;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Entity;

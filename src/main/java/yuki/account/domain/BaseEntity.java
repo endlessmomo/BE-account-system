@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(buildMethodName = "doesNotUseThisBuilder")
+@Builder(builderMethodName = "doesNotUseThisBuilder")
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {

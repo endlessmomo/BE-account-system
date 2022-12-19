@@ -1,6 +1,7 @@
 package yuki.account.dto;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import yuki.account.domain.BaseEntity;
 
 import javax.validation.constraints.Min;
