@@ -16,6 +16,7 @@
 
 ### repository
 - [x] AccountRepository: 계좌들을 관리하는 래파지토리 생성 
+- [x] AccountUserRepository : 계좌 유저들을 관리하는 래파지토리 생성
 
 ### service
 - [x] AccountService : 계좌 생성 및 해지와 관련된 API 구현 
