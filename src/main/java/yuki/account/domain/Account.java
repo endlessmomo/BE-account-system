@@ -1,9 +1,13 @@
 package yuki.account.domain;
 
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.ManyToOne;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -11,7 +15,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 public class Account extends BaseEntity {
     @ManyToOne
     private AccountUser accountUser;
@@ -20,4 +23,8 @@ public class Account extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
     private Long balance;
+
+    @CreatedDate
+    private LocalDateTime registeredAt;
+    private LocalDateTime unRegisteredAt;
 }
