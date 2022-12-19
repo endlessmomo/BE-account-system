@@ -27,7 +27,7 @@ public class CreateAccount {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class Response extends BaseEntity {
+    public static class Response extends BaseEntity{
         private Long userId;
         private String accountNumber;
         private LocalDateTime registeredAt;

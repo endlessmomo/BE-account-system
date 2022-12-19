@@ -25,7 +25,6 @@ public class Account extends BaseEntity {
     private AccountStatus accountStatus;
     private Long balance;
 
-    @CreatedDate
     private LocalDateTime registeredAt;
     private LocalDateTime unRegisteredAt;
 }
