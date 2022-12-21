@@ -1,9 +1,10 @@
 package yuki.account.service;
 
+import yuki.account.Type.ErrorCode;
 import yuki.account.domain.Account;
-import yuki.account.domain.AccountStatus;
 import yuki.account.domain.AccountUser;
 import yuki.account.dto.AccountDto;
+import yuki.account.exception.AccountException;
 import yuki.account.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,9 +12,8 @@ import yuki.account.repository.AccountUserRepository;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-import static yuki.account.domain.AccountStatus.IN_USE;
+import static yuki.account.Type.AccountStatus.IN_USE;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +30,7 @@ public class AccountService {
     @Transactional
     public AccountDto createAccount(Long userId, Long basicBalance) {
         AccountUser accountUser = accountUserRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
+                .orElseThrow(() -> new AccountException(ErrorCode.USER_NOT_FOUND));
 
         String newAccountNumber = accountRepository.findFirstByOrderByIdDesc()
                 .map(account -> (Integer.parseInt(account.getAccountNumber()) + 1) + "")

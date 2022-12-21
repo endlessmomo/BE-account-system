@@ -1,8 +1,7 @@
 package yuki.account.domain;
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.CreatedDate;
+import yuki.account.Type.AccountStatus;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

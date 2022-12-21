@@ -1,7 +1,7 @@
 package yuki.account.service;
 
 import yuki.account.domain.Account;
-import yuki.account.domain.AccountStatus;
+import yuki.account.Type.AccountStatus;
 import yuki.account.repository.AccountRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

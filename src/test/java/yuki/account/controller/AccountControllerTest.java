@@ -6,7 +6,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import yuki.account.domain.Account;
-import yuki.account.domain.AccountStatus;
+import yuki.account.Type.AccountStatus;
 import yuki.account.service.AccountService;
 
 import static org.mockito.ArgumentMatchers.anyLong;

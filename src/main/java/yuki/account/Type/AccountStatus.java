@@ -1,4 +1,4 @@
-package yuki.account.domain;
+package yuki.account.Type;
 
 public enum AccountStatus {
     IN_USE,
