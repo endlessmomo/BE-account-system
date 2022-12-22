@@ -3,7 +3,7 @@ package yuki.account.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import yuki.account.domain.Account;
-import yuki.account.dto.CreateAccount;
+import yuki.account.dto.CreatedAccount;
 import yuki.account.service.AccountService;
 
 import javax.validation.Valid;
@@ -14,10 +14,10 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping("/account")
-    public CreateAccount.Response createAccount(
-            @RequestBody @Valid CreateAccount.Request request
+    public CreatedAccount.Response createAccount(
+            @RequestBody @Valid CreatedAccount.Request request
     ) {
-        return CreateAccount.Response.from(
+        return CreatedAccount.Response.from(
                 accountService.createAccount(
                         request.getUserId(),
                         request.getBasicBalance()

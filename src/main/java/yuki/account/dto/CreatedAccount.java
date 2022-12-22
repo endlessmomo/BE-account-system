@@ -1,17 +1,16 @@
 package yuki.account.dto;
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
-import yuki.account.domain.BaseEntity;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-public class CreateAccount {
+public class CreatedAccount {
 
     @Getter
     @Setter
+    @AllArgsConstructor
     public static class Request {
         @NotNull
         @Min(1)
