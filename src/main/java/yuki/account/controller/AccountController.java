@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import yuki.account.domain.Account;
 import yuki.account.dto.CreatedAccount;
+import yuki.account.dto.DeleteAccount;
 import yuki.account.service.AccountService;
 
 import javax.validation.Valid;
@@ -29,5 +30,17 @@ public class AccountController {
     public Account getAccount(
             @PathVariable Long id) {
         return accountService.getAccount(id);
+    }
+
+    @DeleteMapping("/account")
+    public DeleteAccount.Response deleteAccount(
+            @RequestBody @Valid DeleteAccount.Request request
+    ){
+        return DeleteAccount.Response.from(
+                accountService.deleteAccount(
+                        request.getUserId(),
+                        request.getAccountNumber()
+                )
+        );
     }
 }
