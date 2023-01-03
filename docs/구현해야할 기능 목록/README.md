@@ -20,4 +20,20 @@
 - [x] AccountUserRepository : 계좌 유저들을 관리하는 래파지토리 생성
 
 ### service
-- [x] AccountService : 계좌 생성 및 해지와 관련된 API 구현 
+- [x] AccountService : 계좌 생성 및 해지와 관련된 API 구현
+
+
+---
+
+## TDD
+
+### Controller 
+- [x] : AccountControllerTest 
+  - 계좌 생성 성공 확인 
+  - 계좌 생성 실패 확인
+
+### Service
+- [x] : AccountServiceTest
+  - 계좌 생성 성공 확인
+  - 계좌 생성 실패 확인, 에러코드 확인
+  - 계좌 최대 개수 10개 확인
