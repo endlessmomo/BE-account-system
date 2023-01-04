@@ -17,7 +17,7 @@ public class CreatedAccount {
         private Long userId;
 
         @NotNull
-        @Min(100)
+        @Min(0)
         private Long basicBalance;
     }
 
