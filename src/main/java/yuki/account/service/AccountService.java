@@ -1,19 +1,21 @@
 package yuki.account.service;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import yuki.account.Type.ErrorCode;
 import yuki.account.domain.Account;
 import yuki.account.domain.AccountUser;
 import yuki.account.dto.AccountDto;
 import yuki.account.exception.AccountException;
 import yuki.account.repository.AccountRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import yuki.account.repository.AccountUserRepository;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import static yuki.account.Type.AccountStatus.IN_USE;
+import static yuki.account.Type.AccountStatus.UNREGISTERED;
 
 @Service
 @RequiredArgsConstructor
@@ -63,5 +65,35 @@ public class AccountService {
             throw new RuntimeException("Minus");
         }
         return accountRepository.findById(id).get();
+    }
+
+    @Transactional
+    public AccountDto deleteAccount(Long userId, String accountNumber) {
+        AccountUser user = accountUserRepository.findById(userId)
+                .orElseThrow(() -> new AccountException(ErrorCode.USER_NOT_FOUND));
+
+        Account account = accountRepository.findByAccountNumber(accountNumber)
+                .orElseThrow(()-> new AccountException(ErrorCode.ACCOUNT_NUMBER_NOT_FOUND));
+
+        validateDeleteAccount(user, account);
+
+        account.setAccountStatus(UNREGISTERED);
+        account.setUnRegisteredAt(LocalDateTime.now());
+
+        return AccountDto.fromEntity(account);
+    }
+
+    private void validateDeleteAccount(AccountUser user, Account account){
+        if(!Objects.equals(user.getId(), account.getAccountUser().getId())){
+            throw new AccountException(ErrorCode.UN_MATCH_USER_ACCOUNT);
+        }
+
+        if(account.getAccountStatus() == UNREGISTERED){
+            throw new AccountException(ErrorCode.ALREADY_ACCOUNT_UNREGISTERED);
+        }
+
+        if(account.getBalance() > 0){
+            throw new AccountException(ErrorCode.ACCOUNT_BALANCE_NOT_EMPTY);
+        }
     }
 }
