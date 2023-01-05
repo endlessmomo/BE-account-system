@@ -36,5 +36,15 @@ public class UseBalance {
         private String transactionId;
         private Long amount;
         private LocalDateTime transactedAt;
+
+        public static Response from(TransactionDto dto) {
+            return Response.builder()
+                    .accountNumber(dto.getAccountNumber())
+                    .transactionResultType(dto.getTransactionResultType())
+                    .transactionId(dto.getTransactionId())
+                    .amount(dto.getAmount())
+                    .transactedAt(dto.getTransactedAt())
+                    .build();
+        }
     }
 }
