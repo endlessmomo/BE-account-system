@@ -10,6 +10,7 @@ public class UseBalance {
     @Getter
     @Setter
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class Request {
         @NotNull
         @Min(1)
