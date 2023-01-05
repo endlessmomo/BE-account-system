@@ -50,17 +50,7 @@ public class TransactionService {
 
 
         return TransactionDto.fromEntity(
-                transactionRepository.save(
-                        Transaction.builder()
-                                .transactionType(USE)
-                                .transactionResultType(SUCCESS)
-                                .account(account)
-                                .amount(amount)
-                                .balanceSnapshot(account.getBalance())
-                                .transactionId(UUID.randomUUID().toString().replace("-", ""))
-                                .transactedAt(LocalDateTime.now())
-                                .build()
-                )
+                getAndSaveTransaction(SUCCESS, account, amount)
         );
     }
 
@@ -83,10 +73,14 @@ public class TransactionService {
         Account account = accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new AccountException(USER_NOT_FOUND));
 
-        transactionRepository.save(
+        getAndSaveTransaction(FAIL, account, amount);
+    }
+
+    private Transaction getAndSaveTransaction(TransactionResultType type, Account account, Long amount) {
+        return transactionRepository.save(
                 Transaction.builder()
                         .transactionType(USE)
-                        .transactionResultType(FAIL)
+                        .transactionResultType(type)
                         .account(account)
                         .amount(amount)
                         .balanceSnapshot(account.getBalance())
