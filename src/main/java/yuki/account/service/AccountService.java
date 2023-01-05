@@ -12,10 +12,14 @@ import yuki.account.repository.AccountUserRepository;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
 import static yuki.account.Type.AccountStatus.IN_USE;
 import static yuki.account.Type.AccountStatus.UNREGISTERED;
+import static yuki.account.Type.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +36,7 @@ public class AccountService {
     @Transactional
     public AccountDto createAccount(Long userId, Long basicBalance) {
         AccountUser accountUser = accountUserRepository.findById(userId)
-                .orElseThrow(() -> new AccountException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new AccountException(USER_NOT_FOUND));
 
         validateCreateAccount(accountUser);
 
@@ -54,8 +58,8 @@ public class AccountService {
     }
 
     private void validateCreateAccount(AccountUser accountUser) {
-        if(accountRepository.countByAccountUser(accountUser) == 10){
-            throw new AccountException(ErrorCode.MAX_COUNT_PER_USER_10);
+        if (accountRepository.countByAccountUser(accountUser) == 10) {
+            throw new AccountException(MAX_COUNT_PER_USER_10);
         }
     }
 
@@ -70,10 +74,10 @@ public class AccountService {
     @Transactional
     public AccountDto deleteAccount(Long userId, String accountNumber) {
         AccountUser user = accountUserRepository.findById(userId)
-                .orElseThrow(() -> new AccountException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new AccountException(USER_NOT_FOUND));
 
         Account account = accountRepository.findByAccountNumber(accountNumber)
-                .orElseThrow(()-> new AccountException(ErrorCode.ACCOUNT_NUMBER_NOT_FOUND));
+                .orElseThrow(() -> new AccountException(ACCOUNT_NUMBER_NOT_FOUND));
 
         validateDeleteAccount(user, account);
 
@@ -86,17 +90,27 @@ public class AccountService {
         return AccountDto.fromEntity(account);
     }
 
-    private void validateDeleteAccount(AccountUser user, Account account){
-        if(!Objects.equals(user.getId(), account.getAccountUser().getId())){
+    private void validateDeleteAccount(AccountUser user, Account account) {
+        if (!Objects.equals(user.getId(), account.getAccountUser().getId()))
             throw new AccountException(ErrorCode.UN_MATCH_USER_ACCOUNT);
+
+        if (account.getAccountStatus() == UNREGISTERED) {
+            throw new AccountException(ALREADY_ACCOUNT_UNREGISTERED);
         }
 
-        if(account.getAccountStatus() == UNREGISTERED){
-            throw new AccountException(ErrorCode.ALREADY_ACCOUNT_UNREGISTERED);
+        if (account.getBalance() > 0) {
+            throw new AccountException(ACCOUNT_BALANCE_NOT_EMPTY);
         }
+    }
 
-        if(account.getBalance() > 0){
-            throw new AccountException(ErrorCode.ACCOUNT_BALANCE_NOT_EMPTY);
-        }
+    public List <AccountDto> getAccountsByUserId(Long userId) {
+        AccountUser user = accountUserRepository.findById(userId)
+                .orElseThrow(() -> new AccountException(USER_NOT_FOUND));
+
+        List <Account> accounts = accountRepository.findByAccountUser(user);
+
+        return accounts.stream()
+                .map(AccountDto::fromEntity)
+                .collect(toList());
     }
 }
