@@ -3,11 +3,12 @@ package yuki.account.dto;
 import lombok.*;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-public class CreatedAccount {
-
+public class DeleteAccount {
     @Getter
     @Setter
     @AllArgsConstructor
@@ -16,9 +17,9 @@ public class CreatedAccount {
         @Min(1)
         private Long userId;
 
-        @NotNull
-        @Min(0)
-        private Long basicBalance;
+        @NotBlank
+        @Size(min = 10, max = 10)
+        private String accountNumber;
     }
 
     @Getter
@@ -32,7 +33,7 @@ public class CreatedAccount {
         private LocalDateTime registeredAt;
 
         public static Response from(AccountDto accountDto){
-            return Response.builder()
+            return  Response.builder()
                     .userId(accountDto.getUserId())
                     .accountNumber(accountDto.getAccountNumber())
                     .registeredAt(accountDto.getRegisteredAt())

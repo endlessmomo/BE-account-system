@@ -3,7 +3,15 @@
 Content-Type: application/json
 
 {
-  "userId": 1,
-  "basicBalance": 10000
+  "userId": 2,
+  "basicBalance": 0
 }
 
+### delete account
+DELETE http://localhost:8080/account
+Content-Type: application/json
+
+{
+  "userId" : 2,
+  "accountNumber": "1000000002"
+}
