@@ -19,6 +19,10 @@
 - [x] CreateAccount : 계좌 생성에 대한 요청/응답 처리를 위한 데이터를 전달하기 위한 클래스 생성
 - [x] DeleteAccount : 계좌 삭제에 대한 요청/응답 처리를 위한 데이터를 전달하기 위한 클래스 생성
 - [x] AccountInfo : 데이터 계좌의 정보를 전달하기 위한 클래스 생성
+- [x] UseBalance : 계좌 사용을 위한 응답/요청 처리를 위한 데이터를 전달하기 위한 클래스 생성
+
+### repository
+- [x] AccountRepository: 계좌들을 관리
 - 
 ### repository
 - [x] AccountRepository: 계좌들을 관리하는 래파지토리 생성 
