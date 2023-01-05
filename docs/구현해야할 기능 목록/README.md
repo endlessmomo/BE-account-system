@@ -5,7 +5,9 @@
   - 계좌 생성
   - 계좌 해지
   - 계좌 정보 보기
-
+- [x] TransactionController : 계좌 거래와 관련된 API url 설정
+  - 계좌 잔고 사용/실패
+  
 ### entity
 - [x] Account : 계좌를 표현하는 클래스 생성
 - [x] AccountStatus : 계좌의 상태를 표현하는 Enum 클래스 생성

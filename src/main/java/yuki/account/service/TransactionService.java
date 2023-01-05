@@ -3,10 +3,7 @@ package yuki.account.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import yuki.account.Type.AccountStatus;
-import yuki.account.Type.ErrorCode;
 import yuki.account.Type.TransactionResultType;
-import yuki.account.Type.TransactionType;
 import yuki.account.domain.Account;
 import yuki.account.domain.AccountUser;
 import yuki.account.domain.Transaction;
@@ -25,7 +22,6 @@ import static yuki.account.Type.AccountStatus.UNREGISTERED;
 import static yuki.account.Type.ErrorCode.*;
 import static yuki.account.Type.TransactionResultType.FAIL;
 import static yuki.account.Type.TransactionResultType.SUCCESS;
-import static yuki.account.Type.TransactionType.CANCEL;
 import static yuki.account.Type.TransactionType.USE;
 
 @Slf4j
@@ -69,7 +65,7 @@ public class TransactionService {
     }
 
     @Transactional
-    public void useFailedTransaction(String accountNumber, Long amount) {
+    public void useFailedBalance(String accountNumber, Long amount) {
         Account account = accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new AccountException(USER_NOT_FOUND));
 
