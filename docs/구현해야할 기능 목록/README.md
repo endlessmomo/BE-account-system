@@ -12,7 +12,7 @@
 - [x] BaseEntity : 여러개의 도메인에서 공통적인 멤버변수를 관리할 클래스 생성
   - 유연성을 부여하기 위한 Entity 클래스
 - [x] AccountUser : 게좌의 사용자를 표현하는 클래스 생성
-
+- [x] Transaction : 계좌의 거래를 표현하는 클래스 생성
 
 ### dto 
 - [x] AccountDto : 계좌 데이터를 전달하기 위한 클래스 생성
