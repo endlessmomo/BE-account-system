@@ -21,12 +21,11 @@
 - [x] AccountInfo : 데이터 계좌의 정보를 전달하기 위한 클래스 생성
 - [x] UseBalance : 계좌 사용을 위한 응답/요청 처리를 위한 데이터를 전달하기 위한 클래스 생성
 
-### repository
-- [x] AccountRepository: 계좌들을 관리
-- 
+
 ### repository
 - [x] AccountRepository: 계좌들을 관리하는 래파지토리 생성 
 - [x] AccountUserRepository : 계좌 유저들을 관리하는 래파지토리 생성
+- [x] TransactionRepository : 계좌의 거래들을 관리하는 래파지토리 생성
 
 ### service
 - [x] AccountService : 계좌 생성 및 해지와 관련된 API 구현
