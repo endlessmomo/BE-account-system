@@ -80,6 +80,9 @@ public class AccountService {
         account.setAccountStatus(UNREGISTERED);
         account.setUnRegisteredAt(LocalDateTime.now());
 
+        // Anti Patter for Test
+        accountRepository.save(account);
+
         return AccountDto.fromEntity(account);
     }
 
