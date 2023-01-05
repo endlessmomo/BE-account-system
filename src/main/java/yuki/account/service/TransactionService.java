@@ -23,7 +23,9 @@ import java.util.UUID;
 
 import static yuki.account.Type.AccountStatus.UNREGISTERED;
 import static yuki.account.Type.ErrorCode.*;
+import static yuki.account.Type.TransactionResultType.FAIL;
 import static yuki.account.Type.TransactionResultType.SUCCESS;
+import static yuki.account.Type.TransactionType.CANCEL;
 import static yuki.account.Type.TransactionType.USE;
 
 @Slf4j
@@ -76,4 +78,21 @@ public class TransactionService {
         }
     }
 
+    @Transactional
+    public void useFailedTransaction(String accountNumber, Long amount) {
+        Account account = accountRepository.findByAccountNumber(accountNumber)
+                .orElseThrow(() -> new AccountException(USER_NOT_FOUND));
+
+        transactionRepository.save(
+                Transaction.builder()
+                        .transactionType(USE)
+                        .transactionResultType(FAIL)
+                        .account(account)
+                        .amount(amount)
+                        .balanceSnapshot(account.getBalance())
+                        .transactionId(UUID.randomUUID().toString().replace("-", ""))
+                        .transactedAt(LocalDateTime.now())
+                        .build()
+        );
+    }
 }
