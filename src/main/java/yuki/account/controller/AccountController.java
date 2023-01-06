@@ -3,14 +3,13 @@ package yuki.account.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import yuki.account.domain.Account;
-import yuki.account.dto.AccountInfo;
+import yuki.account.dto.AccountBrief;
 import yuki.account.dto.CreatedAccount;
 import yuki.account.dto.DeleteAccount;
 import yuki.account.service.AccountService;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -50,11 +49,11 @@ public class AccountController {
     }
 
     @GetMapping("/account")
-    public List <AccountInfo> getAccountsByUserID(
+    public List <AccountBrief> getAccountsByUserID(
             @RequestParam("user_id") Long userId
     ) {
         return accountService.getAccountsByUserId(userId)
-                .stream().map(dto -> AccountInfo.builder()
+                .stream().map(dto -> AccountBrief.builder()
                         .accountNumber(dto.getAccountNumber())
                         .balance(dto.getBalance())
                         .build())
