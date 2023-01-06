@@ -44,7 +44,6 @@ public class TransactionService {
 
         account.useBalance(amount);
 
-
         return TransactionDto.fromEntity(
                 getAndSaveTransaction(SUCCESS, account, amount)
         );

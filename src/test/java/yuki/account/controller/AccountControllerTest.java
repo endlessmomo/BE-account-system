@@ -3,6 +3,7 @@ package yuki.account.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -151,9 +152,6 @@ class AccountControllerTest {
                 .andExpect(jsonPath("$[2].balance").value(10000))
                 .andExpect(jsonPath("$[3].accountNumber").value("1234567893"))
                 .andExpect(jsonPath("$[3].balance").value(5000));
-
-
-
     }
 
     @Test
