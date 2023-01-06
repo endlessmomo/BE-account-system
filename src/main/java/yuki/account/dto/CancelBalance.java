@@ -1,15 +1,18 @@
 package yuki.account.dto;
 
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import yuki.account.Type.TransactionResultType;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-public class UseBalance {
+public class CancelBalance {
     @Getter
     @Setter
-    @NoArgsConstructor
     @AllArgsConstructor
     public static class Request {
         @NotNull
@@ -17,10 +20,9 @@ public class UseBalance {
         private Long userId;
 
         @NotBlank
-        @Size(min = 10, max = 10)
+        @Length(min = 10, max = 10)
         private String accountNumber;
 
-        @NotNull
         @Min(100)
         @Max(1_000_000)
         private Long amount;
@@ -28,24 +30,24 @@ public class UseBalance {
 
     @Getter
     @Setter
+    @NoArgsConstructor
     @AllArgsConstructor
-    @NotNull
     @Builder
     public static class Response {
         private String accountNumber;
-        private TransactionResultType transactionResultType;
-        private String transactionId;
         private Long amount;
         private Long changeBalance;
+        private String transactionId;
+        private TransactionResultType transactionResultType;
         private LocalDateTime transactedAt;
 
-        public static Response from(TransactionDto dto) {
+        public static Response from(TransactionDto dto){
             return Response.builder()
                     .accountNumber(dto.getAccountNumber())
-                    .transactionResultType(dto.getTransactionResultType())
-                    .transactionId(dto.getTransactionId())
                     .amount(dto.getAmount())
                     .changeBalance(dto.getBalanceSnapshot())
+                    .transactionId(dto.getTransactionId())
+                    .transactionResultType(dto.getTransactionResultType())
                     .transactedAt(dto.getTransactedAt())
                     .build();
         }
