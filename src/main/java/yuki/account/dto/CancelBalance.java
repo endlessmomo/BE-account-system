@@ -15,9 +15,8 @@ public class CancelBalance {
     @Setter
     @AllArgsConstructor
     public static class Request {
-        @NotNull
-        @Min(1)
-        private Long userId;
+        @NotBlank
+        private String transactionId;
 
         @NotBlank
         @Length(min = 10, max = 10)
