@@ -31,7 +31,7 @@
 
 ### service
 - [x] AccountService : 계좌 생성 및 해지와 관련된 API 구현
-
+- [x] TransactionService : 계좌 사용과 관련된 API 구현
 ---
 
 ## TDD
