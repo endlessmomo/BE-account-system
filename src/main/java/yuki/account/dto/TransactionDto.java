@@ -2,6 +2,7 @@ package yuki.account.dto;
 
 import lombok.*;
 import yuki.account.Type.TransactionResultType;
+import yuki.account.Type.TransactionStatus;
 import yuki.account.Type.TransactionType;
 import yuki.account.domain.Transaction;
 
@@ -20,6 +21,7 @@ public class TransactionDto {
     private Long balanceSnapshot;
     private String transactionId;
     private LocalDateTime transactedAt;
+    private TransactionStatus transactionStatus;
 
     public static TransactionDto fromEntity(Transaction transaction){
         return TransactionDto.builder()
@@ -30,6 +32,7 @@ public class TransactionDto {
                 .balanceSnapshot(transaction.getBalanceSnapshot())
                 .transactionId(transaction.getTransactionId())
                 .transactedAt(transaction.getTransactedAt())
+                .transactionStatus(transaction.getTransactionStatus())
                 .build();
     }
 }
