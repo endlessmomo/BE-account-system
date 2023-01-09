@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 import static yuki.account.Type.ErrorCode.EXCEED_BALANCE;
+import static yuki.account.Type.ErrorCode.INVALID_REQUEST;
 
 @Getter
 @Setter
@@ -36,5 +37,12 @@ public class Account extends BaseEntity {
             throw new AccountException(EXCEED_BALANCE);
         }
         this.balance -= amount;
+    }
+
+    public void cancelBalacne(Long amount){
+        if(amount < 0){
+            throw new AccountException(INVALID_REQUEST);
+        }
+        this.balance += amount;
     }
 }
