@@ -2,11 +2,9 @@ package yuki.account.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import yuki.account.dto.CancelBalance;
+import yuki.account.dto.QueryTransactionResponse;
 import yuki.account.dto.UseBalance;
 import yuki.account.exception.AccountException;
 import yuki.account.service.TransactionService;
@@ -26,7 +24,7 @@ public class TransactionController {
     ) {
         try {
             return UseBalance.Response.from(
-                    transactionService.useBalance(request.getUserId(), 
+                    transactionService.useBalance(request.getUserId(),
                             request.getAccountNumber(), request.getAmount())
             );
         } catch (AccountException e) {
@@ -43,14 +41,14 @@ public class TransactionController {
 
     @PostMapping("/cancel")
     public CancelBalance.Response cancelBalance(
-             @Valid @RequestBody CancelBalance.Request request
-    ){
-        try{
+            @Valid @RequestBody CancelBalance.Request request
+    ) {
+        try {
             return CancelBalance.Response.from(
                     transactionService.cancelBalance(request.getTransactionId()
                             , request.getAccountNumber(), request.getAmount())
             );
-        } catch (AccountException e){
+        } catch (AccountException e) {
             log.error("Failed to pay-cancel");
 
             transactionService.cancelFailedBalance(
@@ -60,5 +58,14 @@ public class TransactionController {
 
             throw e;
         }
+    }
+
+    @GetMapping("{transactionId}")
+    public QueryTransactionResponse queryTransaction(
+            @PathVariable String transactionId
+    ) {
+        return QueryTransactionResponse.from(
+                transactionService.queryTransaction(transactionId)
+        );
     }
 }
