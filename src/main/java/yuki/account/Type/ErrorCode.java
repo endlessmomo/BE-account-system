@@ -18,6 +18,7 @@ public enum ErrorCode {
     , CANCEL_MUST_FULLY("부분 취소는 허용되지 않습니다.")
     , TOO_OLD_ORDER_TO_CANCEL("1년이 지난 거래는 취소가 불가능합니다.")
     , INVALID_REQUEST("잘못된 용청입니다.")
+    , ALREADY_CANCELED_TRANSACTION("이미 취소된 거래입니다.")
     ;
 
     private final String description;
