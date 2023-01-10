@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import yuki.account.Type.TransactionType;
 import yuki.account.dto.CancelBalance;
 import yuki.account.dto.TransactionDto;
 import yuki.account.dto.UseBalance;
@@ -19,12 +20,14 @@ import java.time.LocalDateTime;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static yuki.account.Type.TransactionResultType.SUCCESS;
 import static yuki.account.Type.TransactionStatus.PAYED;
+import static yuki.account.Type.TransactionType.USE;
 
 @WebMvcTest(TransactionController.class)
 class TransactionControllerTest {
@@ -56,11 +59,11 @@ class TransactionControllerTest {
 
         //then
         mockMvc.perform(post("/transaction/use")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(
-                        new UseBalance.Request(1L, "2000000000", 30000L)
-                ))
-        ).andDo(print())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(
+                                new UseBalance.Request(1L, "2000000000", 30000L)
+                        ))
+                ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accountNumber").value("1000000000"))
                 .andExpect(jsonPath("$.transactionResultType").value("SUCCESS"))
@@ -99,5 +102,30 @@ class TransactionControllerTest {
                 .andExpect(jsonPath("$.transactionId").value("transactionId"))
                 .andExpect(jsonPath("$.changeBalance").value(100000))
                 .andExpect(jsonPath("$.amount").value(12345));
+    }
+
+    @Test
+    @DisplayName("거래 계좌 조회 성공")
+    void successQueryTransaction() throws Exception {
+        //given
+        given(transactionService.queryTransaction(anyString()))
+                .willReturn(TransactionDto.builder()
+                        .accountNumber("1000000000")
+                        .transactionType(USE)
+                        .transactedAt(LocalDateTime.now())
+                        .amount(54321L)
+                        .transactionId("transactionId")
+                        .transactionResultType(SUCCESS)
+                        .build());
+        //when
+
+        //then
+        mockMvc.perform(get("/transaction/12345"))
+                .andDo(print())
+                .andExpect(jsonPath("$.accountNumber").value("1000000000"))
+                .andExpect(jsonPath("$.transactionResultType").value("SUCCESS"))
+                .andExpect(jsonPath("$.transactionId").value("transactionId"))
+                .andExpect(jsonPath("$.amount").value(54321));
+
     }
 }
