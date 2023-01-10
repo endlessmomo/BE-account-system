@@ -31,6 +31,7 @@ import static yuki.account.Type.AccountStatus.UNREGISTERED;
 import static yuki.account.Type.ErrorCode.ALREADY_ACCOUNT_UNREGISTERED;
 import static yuki.account.Type.ErrorCode.EXCEED_BALANCE;
 import static yuki.account.Type.TransactionResultType.SUCCESS;
+import static yuki.account.Type.TransactionType.CANCEL;
 import static yuki.account.Type.TransactionType.USE;
 
 @ExtendWith(MockitoExtension.class)
@@ -236,5 +237,46 @@ class TransactionServiceTest {
 
         //then
         assertEquals(EXCEED_BALANCE, exception.getErrorCode());
+    }
+
+    @Test
+    @DisplayName("계좌 거래 확인")
+    void successQueryTransaction() {
+        //given
+        AccountUser user = AccountUser.builder()
+                .name("yuki")
+                .build();
+
+        Account account = Account.builder()
+                .accountUser(user)
+                .accountStatus(IN_USE)
+                .balance(100000L)
+                .accountNumber("1000000012")
+                .build();
+
+        Transaction transaction = Transaction.builder()
+                .account(account)
+                .transactionType(USE)
+                .transactionResultType(SUCCESS)
+                .transactionId("transactionId")
+                .transactedAt(LocalDateTime.now())
+                .amount(30000L)
+                .balanceSnapshot(70000L)
+                .build();
+
+        // BaseEntity 를 사용하기 때문에 직접 세팅 해줘야한다.
+        user.setId(1L);
+        account.setId(1L);
+        transaction.setId(1L);
+
+        given(transactionRepository.findByTransactionId(anyString()))
+                .willReturn(Optional.of(transaction));
+        //when
+        TransactionDto dto = transactionService.queryTransaction("trxId");
+
+        //then
+        assertEquals(USE, dto.getTransactionType());
+        assertEquals(SUCCESS,dto.getTransactionResultType());
+        assertEquals("transactionId", dto.getTransactionId());
     }
 }
