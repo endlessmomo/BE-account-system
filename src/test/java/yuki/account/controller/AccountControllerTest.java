@@ -3,17 +3,18 @@ package yuki.account.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import yuki.account.Type.AccountStatus;
+import yuki.account.Type.ErrorCode;
 import yuki.account.domain.Account;
 import yuki.account.dto.AccountDto;
 import yuki.account.dto.CreatedAccount;
 import yuki.account.dto.DeleteAccount;
+import yuki.account.exception.AccountException;
 import yuki.account.service.AccountService;
 
 import java.time.LocalDateTime;
@@ -170,5 +171,21 @@ class AccountControllerTest {
                 .andExpect(jsonPath("$.accountNumber").value("3456"))
                 .andExpect(jsonPath("$.accountStatus").value("IN_USE"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("계좌 확인 실패")
+    void failGetAccount() throws Exception {
+        //given
+        given(accountService.getAccount(anyLong()))
+                .willThrow(new AccountException(ErrorCode.ACCOUNT_NUMBER_NOT_FOUND));
+        //when
+
+        //then
+        mockMvc.perform(get("/account/876"))
+                .andDo(print())
+                .andExpect(jsonPath("$.errorMessage").value("[Error] : 해당 계좌 번호는 존재하지 않습니다."))
+                .andExpect(status().isOk());
+
     }
 }

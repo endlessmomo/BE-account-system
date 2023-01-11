@@ -14,7 +14,6 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 import static yuki.account.Type.AccountStatus.IN_USE;
@@ -66,7 +65,7 @@ public class AccountService {
     @Transactional
     public Account getAccount(Long id) {
         if (id < 0) {
-            throw new RuntimeException("Minus");
+            throw new AccountException(ACCOUNT_NUMBER_NOT_FOUND);
         }
         return accountRepository.findById(id).get();
     }
