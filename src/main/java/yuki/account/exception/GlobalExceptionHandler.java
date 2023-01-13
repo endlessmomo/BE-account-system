@@ -12,19 +12,18 @@ import static yuki.account.Type.ErrorCode.INTERNAL_SERVER_ERROR;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccountException.class)
-    public ErrorResponse handleAccountExceptiuon(AccountException e){
+    public ErrorResponse handleAccountException(AccountException e){
         log.error("{} is occurred.", e.getErrorCode());
 
         return new ErrorResponse(e.getErrorCode(), e.getErrorMessage());
     }
 
     @ExceptionHandler(Exception.class)
-    public ErrorResponse handleExceptiuon(Exception e){
+    public ErrorResponse handleException(Exception e){
         log.error("Exception is occurred.", e);
 
         return new ErrorResponse(
                 INTERNAL_SERVER_ERROR, INTERNAL_SERVER_ERROR.getDescription()
         );
     }
-
 }

@@ -28,6 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static yuki.account.Type.ErrorCode.ACCOUNT_NUMBER_NOT_FOUND;
 
 @WebMvcTest(AccountController.class)
 class AccountControllerTest {
@@ -178,12 +179,13 @@ class AccountControllerTest {
     void failGetAccount() throws Exception {
         //given
         given(accountService.getAccount(anyLong()))
-                .willThrow(new AccountException(ErrorCode.ACCOUNT_NUMBER_NOT_FOUND));
+                .willThrow(new AccountException(ACCOUNT_NUMBER_NOT_FOUND));
         //when
 
         //then
         mockMvc.perform(get("/account/876"))
                 .andDo(print())
+                .andExpect(jsonPath("$.errorCode").value(ACCOUNT_NUMBER_NOT_FOUND+""))
                 .andExpect(jsonPath("$.errorMessage").value("[Error] : 해당 계좌 번호는 존재하지 않습니다."))
                 .andExpect(status().isOk());
 
