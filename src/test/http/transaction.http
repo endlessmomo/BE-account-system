@@ -4,8 +4,18 @@ Content-Type: application/json
 
 {
   "userId": 1,
-  "accountNumber": "1000000000",
-  "amount": 50000
+  "accountNumber":  "1000000001",
+  "amount": 1000
+}
+
+### use balance2
+ POST http://localhost:8080/transaction/use
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "accountNumber": "1000000001",
+  "amount": 1000
 }
 
 ### cancel balance
@@ -13,9 +23,9 @@ Content-Type: application/json
 Content-Type: application/json
 
 {
-  "transactionId" : "9f97c364040b435893e4a67fb3e482d0"
-  , "accountNumber" : "1000000000"
-  , "amount": 50000
+  "transactionId" : "802e3db873e64d5eb1da739b15957e93"
+  , "accountNumber" : "1000000001"
+  , "amount": 1000
 }
 
 ### get transacitonQuery

@@ -3,6 +3,7 @@ package yuki.account.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import yuki.account.aop.AccountLock;
 import yuki.account.dto.CancelBalance;
 import yuki.account.dto.QueryTransactionResponse;
 import yuki.account.dto.UseBalance;
@@ -19,10 +20,12 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @PostMapping("/use")
+    @AccountLock
     public UseBalance.Response useBalance(
             @Valid @RequestBody UseBalance.Request request
-    ) {
+    ) throws InterruptedException {
         try {
+            Thread.sleep(3000L);
             return UseBalance.Response.from(
                     transactionService.useBalance(request.getUserId(),
                             request.getAccountNumber(), request.getAmount())
@@ -40,6 +43,7 @@ public class TransactionController {
     }
 
     @PostMapping("/cancel")
+    @AccountLock
     public CancelBalance.Response cancelBalance(
             @Valid @RequestBody CancelBalance.Request request
     ) {

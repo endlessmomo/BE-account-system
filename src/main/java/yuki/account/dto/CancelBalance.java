@@ -3,6 +3,7 @@ package yuki.account.dto;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import yuki.account.Type.TransactionResultType;
+import yuki.account.aop.AccountLockInterface;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -14,7 +15,7 @@ public class CancelBalance {
     @Getter
     @Setter
     @AllArgsConstructor
-    public static class Request {
+    public static class Request implements AccountLockInterface {
         @NotBlank
         private String transactionId;
 
