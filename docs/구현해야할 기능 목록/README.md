@@ -1,5 +1,9 @@
 ## 💻 구현해야할 기능 목록
 
+### aop
+- [x] @AccountLock : 어노테이션 생성
+- [x] AccountLockInterface : 서로 다른 request 반환형을 맞추기 위한 인터페이스
+- 
 ### controller
 - [x] AccountController : 계좌와 관련된 API url 설정
   - 계좌 생성
@@ -34,6 +38,8 @@
 ### service
 - [x] AccountService : 계좌 생성 및 해지와 관련된 API 구현
 - [x] TransactionService : 계좌 사용과 관련된 API 구현
+- [x] LockService : Redis 활용을 하여 transaction Lock을 위한 서비스 로직 구현
+- [x] LockAopAspect : LockService를 사용하기 위한 로직
 ---
 
 ## TDD
